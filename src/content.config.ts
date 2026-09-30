@@ -17,4 +17,19 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const source = z.object({ label: z.string(), url: z.string().url() });
+
+const politicians = defineCollection({
+  loader: glob({ base: './src/content/politicians', pattern: '**/*.md' }),
+  schema: z.object({
+    name: z.string(),
+    office: z.string(),
+    state: z.string(),
+    party: z.string(),
+    inOfficeSince: z.coerce.date(),
+    lastReviewed: z.coerce.date(),
+    sources: z.array(source).min(1),
+  }),
+});
+
+export const collections = { blog, politicians };

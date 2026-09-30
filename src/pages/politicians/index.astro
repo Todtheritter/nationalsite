@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+const people = (await getCollection('politicians')).sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+<html lang="en">
+  <head><BaseHead title="Politicians" description="Profiles with sourced positions and records" /></head>
+  <body>
+    <Header />
+    <main>
+      <h1>Politicians</h1>
+      <ul>{people.map((p) => <li><a href={`/politicians/${p.id}/`}>{p.data.name}</a> – {p.data.office}, {p.data.state}</li>)}</ul>
+    </main>
+    <Footer />
+  </body>
+</html>

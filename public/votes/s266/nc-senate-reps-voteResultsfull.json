@@ -1,0 +1,302 @@
+{
+  "50": {
+    "rep": "Kevin Corbin",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "49": {
+    "rep": "Julie Mayfield",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "48": {
+    "rep": "Timothy D Moffitt",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "47": {
+    "rep": "Ralphi Hise",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "46": {
+    "rep": "Warren Daniel",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "45": {
+    "rep": "Mark Hollo",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "44": {
+    "rep": "W Ted Alexander",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "43": {
+    "rep": "Brad Overcash",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "42": {
+    "rep": "Woodson Bradley",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "41": {
+    "rep": "Caleb Theodros",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "40": {
+    "rep": "Joyce Waddell",
+    "party": "Democrat",
+    "tenure": 11,
+    "vote": "No"
+  },
+  "39": {
+    "rep": "DeAndrea Salvador",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "38": {
+    "rep": "Mujtaba A Mohammed",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "37": {
+    "rep": "Vickie Sawyer",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "36": {
+    "rep": "Eddie D Settle",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "35": {
+    "rep": "Todd Johnson",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "34": {
+    "rep": "Chris Measmer",
+    "party": "Republican",
+    "tenure": 0,
+    "vote": "Yes"
+  },
+  "33": {
+    "rep": "Carl Ford",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "32": {
+    "rep": "Paul A Lowe, Jr",
+    "party": "Democrat",
+    "tenure": 11,
+    "vote": "No"
+  },
+  "31": {
+    "rep": "Dana Jones",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "30": {
+    "rep": "Steve Jarvis",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "29": {
+    "rep": "David W Craven Jr",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "28": {
+    "rep": "Gladys A Robinson",
+    "party": "Democrat",
+    "tenure": 15,
+    "vote": "No"
+  },
+  "27": {
+    "rep": "Michael Garrett",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "26": {
+    "rep": "Phil Berger",
+    "party": "Republican",
+    "tenure": 25,
+    "vote": "Yes"
+  },
+  "25": {
+    "rep": "Amy S Galey",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "24": {
+    "rep": "Danny Earl Britt, Jr",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "23": {
+    "rep": "Craig Meyer",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "Absent"
+  },
+  "22": {
+    "rep": "Sohia Chitlik",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "21": {
+    "rep": "Tom McInnis",
+    "party": "Republican",
+    "tenure": 11,
+    "vote": "Yes"
+  },
+  "20": {
+    "rep": "Natalie S Murdock",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "19": {
+    "rep": "Val Applewhite",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "18": {
+    "rep": "Terence Everitt",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "17": {
+    "rep": "Sydney Batch",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "16": {
+    "rep": "Gale Adcock",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "15": {
+    "rep": "Jay J Chaudhuri",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "14": {
+    "rep": "Dan Blue",
+    "party": "Democrat",
+    "tenure": 16,
+    "vote": "Absent"
+  },
+  "13": {
+    "rep": "Lisa Grafstein",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "12": {
+    "rep": "Jim Burgin",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "11": {
+    "rep": "Lisa S Barnes",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "10": {
+    "rep": "Benton G Sawrey",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "9": {
+    "rep": "Brent Jackson",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "8": {
+    "rep": "Bill Rabon",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "7": {
+    "rep": "Michael V Lee",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "6": {
+    "rep": "Michael A Lazzara",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "5": {
+    "rep": "Kandie D Smith",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "4": {
+    "rep": "Buck Newton",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "3": {
+    "rep": "Bob Brinson",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "2": {
+    "rep": "Norman W Sanderson",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "1": {
+    "rep": "Bobby Hanig",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  }
+}

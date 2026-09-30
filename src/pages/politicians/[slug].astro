@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const people = await getCollection('politicians');
+  return people.map((p) => ({ params: { slug: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+const d = p.data;
+---
+<html lang="en">
+  <head><BaseHead title={d.name} description={`${d.office} (${d.party}, ${d.state})`} /></head>
+  <body>
+    <Header />
+    <main>
+      <h1>{d.name}</h1>
+      <p>{d.office} · {d.party} · {d.state}</p>
+      <p><small>Last reviewed {d.lastReviewed.toLocaleDateString()}</small></p>
+      <Content />
+      <h2>Sources</h2>
+      <ol>{d.sources.map((s) => <li><a href={s.url}>{s.label}</a></li>)}</ol>
+    </main>
+    <Footer />
+  </body>
+</html>

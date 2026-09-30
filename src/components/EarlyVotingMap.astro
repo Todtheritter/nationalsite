@@ -1,0 +1,262 @@
+---
+// Early voting start-date map. Shapes are drawn at build time; colors are
+// set in the browser from the viewer's current date, so the map stays
+// correct between rebuilds.
+import { geoPath } from "d3-geo";
+import { feature, mesh } from "topojson-client";
+import us from "us-atlas/states-albers-10m.json";
+import data from "../data/early-voting-2026.json";
+
+const path = geoPath(); // us-atlas albers file is pre-projected to 975×610
+const states = feature(us, us.objects.states).features;
+const borders = path(mesh(us, us.objects.states, (a, b) => a !== b));
+const byFips = Object.fromEntries(data.states.map((s) => [s.fips, s]));
+const dc = states.find((f) => f.id === "11");
+const [dcX, dcY] = dc ? path.centroid(dc) : [0, 0];
+
+const fmt = (iso) =>
+  new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+const sorted = [...data.states].sort((a, b) =>
+  (a.start ?? "9999").localeCompare(b.start ?? "9999") || a.name.localeCompare(b.name)
+);
+---
+
+<section class="ev" data-election={data.electionDate}>
+  <div class="ev-controls">
+    <label for="ev-date">Show the map as of</label>
+    <input id="ev-date" type="date" min="2026-09-01" max={data.electionDate} />
+    <button type="button" id="ev-today">Today</button>
+  </div>
+
+  <ul class="ev-legend" aria-label="Legend">
+    <li><span style="--c:var(--ev-0)"></span>Early voting open</li>
+    <li><span style="--c:var(--ev-1)"></span>Opens in 1–7 days</li>
+    <li><span style="--c:var(--ev-2)"></span>8–14 days</li>
+    <li><span style="--c:var(--ev-3)"></span>15–21 days</li>
+    <li><span style="--c:var(--ev-4)"></span>22–28 days</li>
+    <li><span style="--c:var(--ev-5)"></span>29+ days</li>
+    <li><span style="--c:var(--ev-none)"></span>No unexcused early voting</li>
+  </ul>
+
+  <div class="ev-map">
+    <svg viewBox="0 0 975 610" role="img" aria-labelledby="ev-title">
+      <title id="ev-title">Map of U.S. states colored by how soon early voting starts</title>
+      <g>
+        {states.map((f) => {
+          const s = byFips[f.id];
+          return (
+            <path
+              class="ev-state"
+              d={path(f)}
+              data-fips={f.id}
+              data-start={s?.start ?? ""}
+              tabindex="0"
+              aria-label={s ? `${s.name}: ${s.start ? "early voting starts " + fmt(s.start) : "no unexcused early voting"}` : undefined}
+            />
+          );
+        })}
+      </g>
+      <path class="ev-borders" d={borders} />
+      {dc && (
+        <circle
+          class="ev-state ev-dc"
+          cx={dcX}
+          cy={dcY}
+          r="7"
+          data-fips="11"
+          data-start={byFips["11"].start}
+          tabindex="0"
+          aria-label={`District of Columbia: early voting starts ${fmt(byFips["11"].start)}`}
+        />
+      )}
+    </svg>
+    <div class="ev-tip" role="status" hidden></div>
+  </div>
+
+<details class="ev-list">
+  <summary>All states by start date</summary>
+  <div class="ev-scroll">
+    <table>
+      <thead><tr><th>State</th><th>Early voting starts</th><th>Notes</th></tr></thead>
+      <tbody>
+        {sorted.map((s) => (
+          <tr>
+            <td><span class="ev-dot" data-start={s.start ?? ""}></span>{s.name}</td>
+            <td>{s.start ? fmt(s.start) : "—"}</td>
+            <td>{s.note ?? ""}{s.source && <> <a href={s.source}>Official page</a></>}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</details>
+
+  <script type="application/json" id="ev-data" set:html={JSON.stringify(byFips)} />
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".ev")!;
+  const byFips = JSON.parse(document.getElementById("ev-data")!.textContent!);
+  const input = root.querySelector<HTMLInputElement>("#ev-date")!;
+  const tip = root.querySelector<HTMLElement>(".ev-tip")!;
+  const shapes = [...root.querySelectorAll<SVGElement>(".ev-state")];
+  const DAY = 86_400_000;
+
+  const localISO = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const noon = (iso: string) => new Date(iso + "T12:00:00").getTime();
+  const fmt = (iso: string) =>
+    new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+  // Days until start → legend bucket (0 = open now, 5 = 29+ days away).
+  const bucket = (days: number) => (days <= 0 ? 0 : Math.min(5, Math.ceil(days / 7)));
+
+  function describe(s: any, asOf: string) {
+    if (!s.start) return "No unexcused early voting";
+    const days = Math.round((noon(s.start) - noon(asOf)) / DAY);
+    if (days <= 0) return `Early voting open since ${fmt(s.start)}`;
+    return `Starts ${fmt(s.start)} · ${days} day${days === 1 ? "" : "s"} away`;
+  }
+
+const dots = [...root.querySelectorAll<HTMLElement>(".ev-dot")];
+
+function paint(asOf: string) {
+  for (const el of [...shapes, ...dots]) {
+    const start = el.dataset.start;
+    const color = start
+      ? `var(--ev-${bucket(Math.round((noon(start) - noon(asOf)) / DAY))})`
+      : "var(--ev-none)";
+    if (el instanceof SVGElement) el.style.fill = color;
+    else el.style.background = color;
+  }
+}
+
+  function show(el: SVGElement, x: number, y: number) {
+    const s = byFips[el.dataset.fips!];
+    if (!s) return;
+    tip.innerHTML = `<strong>${s.name}</strong><span>${describe(s, input.value)}</span>${s.note ? `<small>${s.note}</small>` : ""}`;
+    const box = root.querySelector(".ev-map")!.getBoundingClientRect();
+    tip.hidden = false;
+    const w = tip.offsetWidth;
+    tip.style.left = `${Math.max(0, Math.min(x - box.left + 12, box.width - w))}px`;
+    tip.style.top = `${y - box.top + 12}px`;
+  }
+
+  for (const el of shapes) {
+    el.addEventListener("pointermove", (e) => show(el, e.clientX, e.clientY));
+    el.addEventListener("pointerleave", () => (tip.hidden = true));
+    el.addEventListener("focus", () => {
+      const r = el.getBoundingClientRect();
+      show(el, r.left + r.width / 2, r.top + r.height / 2);
+    });
+    el.addEventListener("blur", () => (tip.hidden = true));
+  }
+
+  const today = localISO(new Date());
+  input.value = today;
+  paint(today);
+  input.addEventListener("input", () => input.value && paint(input.value));
+  root.querySelector("#ev-today")!.addEventListener("click", () => {
+    input.value = localISO(new Date());
+    paint(input.value);
+  });
+</script>
+
+<style>
+  .ev {
+    --ev-0: #14532d; /* open — dark green */
+    --ev-1: #4d9a3f;
+    --ev-2: #a6c63a;
+    --ev-3: #f1c232;
+    --ev-4: #eb8a2e;
+    --ev-5: #c62f2f; /* far away — red */
+    --ev-none: #b9bcc2;
+    --ev-line: #ffffff;
+    --ev-ink: #1d1f23;
+    --ev-panel: #ffffff;
+    --ev-muted: #5d626b;
+    color: var(--ev-ink);
+    font-family: system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    .ev { --ev-none: #4a4e55; --ev-line: #16181c; --ev-ink: #0b0b0c; --ev-panel: #d3d6d9; --ev-muted: #a3a8b0; --ev-greenbutton: #528317; }
+  }
+  .ev-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem; }
+  .ev-controls input, .ev-controls button {
+    font: inherit; padding: 0.3rem 0.6rem; border-radius: 6px;
+    border: 1px solid var(--ev-muted); background: var(--ev-panel); color: inherit;
+  }
+ .ev-controls button {
+  cursor: pointer;
+  background: var(--ev-greenbutton);
+  border-color: var(--ev-greenbutton);
+  color: #fff;
+  font-weight: 600;
+}
+.ev-controls button:hover { filter: brightness(1.1); }
+.ev-controls button:focus-visible { outline: 2px solid var(--ev-greenbutton); outline-offset: 2px; }
+  .ev-legend { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.85rem; color: var(--ev-muted); }
+  .ev-legend li { display: flex; align-items: center; gap: 0.4rem; }
+  .ev-legend span { width: 14px; height: 14px; border-radius: 3px; background: var(--c); }
+  .ev-map { position: relative; }
+  .ev-map svg { width: 100%; height: auto; display: block; }
+  .ev-state { fill: var(--ev-none); cursor: pointer; transition: fill 0.25s; outline: none; }
+  .ev-state:hover, .ev-state:focus-visible { filter: brightness(1.15); stroke: var(--ev-ink); stroke-width: 1.5; }
+  .ev-dc { stroke: var(--ev-line); stroke-width: 1.5; }
+  .ev-borders { fill: none; stroke: var(--ev-line); stroke-width: 0.8; stroke-linejoin: round; pointer-events: none; }
+  .ev-tip {
+    position: absolute; pointer-events: none; max-width: 260px; padding: 0.55rem 0.7rem;
+    background: var(--ev-panel); border-radius: 8px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+    display: grid; gap: 0.2rem; font-size: 0.85rem;
+  }
+  .ev-tip[hidden] { display: none; }
+  .ev-tip small { color: var(--ev-muted); }
+.ev-list {
+  margin-top: 1.5rem;
+  background: var(--ev-panel);
+  border: 1px solid color-mix(in srgb, var(--ev-muted) 25%, transparent);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ev-list summary {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ev-list summary::-webkit-details-marker { display: none; }
+.ev-list summary::after { content: "+"; font-size: 1.3rem; line-height: 1; transition: transform 0.2s; }
+.ev-list[open] summary::after { transform: rotate(45deg); }
+.ev-list[open] summary { border-bottom: 1px solid color-mix(in srgb, var(--ev-muted) 25%, transparent); }
+
+.ev-scroll { max-height: 480px; overflow-y: auto; }
+.ev-list table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.ev-list th {
+  position: sticky; top: 0; z-index: 1;
+  background: #b2b6bb; color: #fff;
+  text-align: left; padding: 0.6rem 1.1rem;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.ev-list td {
+  padding: 0.6rem 1.1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ev-muted) 15%, transparent);
+  vertical-align: top;
+}
+.ev-list tbody tr:nth-child(even) { background: color-mix(in srgb, var(--ev-muted) 30%, transparent); }
+.ev-list tbody tr:hover { background: color-mix(in srgb, var(--ev-muted) 14%, transparent); }
+.ev-list td:first-child { font-weight: 600; white-space: nowrap; }
+.ev-list td:nth-child(2) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ev-list td:nth-child(3) { color: var(--ev-muted); font-size: 0.8rem; }
+
+.ev-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+  margin-right: 0.55rem; vertical-align: middle; background: var(--ev-none);
+}
+
+@media (max-width: 600px) {
+  .ev-list th:nth-child(3), .ev-list td:nth-child(3) { display: none; }
+}
+</style>

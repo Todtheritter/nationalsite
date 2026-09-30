@@ -1,0 +1,50 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import EarlyVotingMap from "../components/EarlyVotingMap.astro";
+import data from "../data/early-voting-2026.json";
+
+const reviewed = new Date(data.lastReviewed + "T12:00:00").toLocaleDateString("en-US", {
+  month: "long", day: "numeric", year: "numeric",
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="When Early Voting Starts — 2026"
+      description="Map of when early in-person voting starts in every state for the November 3, 2026 general election."
+    />
+    <style>
+      main.wide { width: 1000px; max-width: calc(100% - 2em); }
+      .fine { font-size: 0.85rem; opacity: 0.8; }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="wide">
+      <h1>When does early voting start?</h1>
+      <p>
+        Early in-person voting for the November 3, 2026 general election, state by state.
+        Hover or tap a state for its start date, or pick a date to see how the map changes.
+      </p>
+
+      <EarlyVotingMap />
+
+      <p class="fine">
+        Dates are the first day early in-person voting is available statewide. Counties may set
+        their own sites and hours, and some start earlier. Confirm with your state or local
+        election office before you go.
+      </p>
+
+      <p class="fine">Last reviewed {reviewed}.</p>
+      <h2>Sources</h2>
+      <ul>
+        {data.sources.map((s) => <li><a href={s.url}>{s.label}</a></li>)}
+      </ul>
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,722 @@
+{
+  "120": {
+    "rep": "Karl E Gillespie",
+    "party": "Republican",
+    "tenure": 11,
+    "vote": "Yes"
+  },
+  "119": {
+    "rep": "Mike Clampitt",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "118": {
+    "rep": "Mark Pless",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "117": {
+    "rep": "Jennifer Balkcom",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "116": {
+    "rep": "Brian Turner",
+    "party": "Democrat",
+    "tenure": 11,
+    "vote": "No"
+  },
+  "115": {
+    "rep": "Lindsey Prather",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "114": {
+    "rep": "Eric Ager",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "113": {
+    "rep": "Jake Johnson",
+    "party": "Republican",
+    "tenure": 6,
+    "vote": "Yes"
+  },
+  "112": {
+    "rep": "Jordan Lopez",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "111": {
+    "rep": "Paul Scott",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "110": {
+    "rep": "Kelly E Hastings",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "109": {
+    "rep": "Donnie Loftis",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "108": {
+    "rep": "John A Torbett",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "107": {
+    "rep": "Aisha O Dew",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "106": {
+    "rep": "Carla D Cunningham",
+    "party": "Democrat",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "105": {
+    "rep": "Tricia Ann Cotham",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "104": {
+    "rep": "Brandon Lofton",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "103": {
+    "rep": "Laura Budd",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "102": {
+    "rep": "Becky Carney",
+    "party": "Democrat",
+    "tenure": 23,
+    "vote": "No"
+  },
+  "101": {
+    "rep": "Carolyn G Logan",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "100": {
+    "rep": "Julia Greenfield",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "99": {
+    "rep": "Nasif Majeed",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "98": {
+    "rep": "Beth Helfrich",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "97": {
+    "rep": "Heather H Rhyne",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "96": {
+    "rep": "Jay Adams",
+    "party": "Republican",
+    "tenure": 11,
+    "vote": "Yes"
+  },
+  "95": {
+    "rep": "Todd Carver",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "94": {
+    "rep": "Blair Eddins",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "93": {
+    "rep": "Ray Pickett",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "92": {
+    "rep": "Terry M Brown",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "91": {
+    "rep": "Kyle Hall",
+    "party": "Republican",
+    "tenure": 10,
+    "vote": "Yes"
+  },
+  "90": {
+    "rep": "Sarah Stevens",
+    "party": "Republican",
+    "tenure": 17,
+    "vote": "Yes"
+  },
+  "89": {
+    "rep": "Mitchell S Setzer",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "88": {
+    "rep": "Mary Belk",
+    "party": "Democrat",
+    "tenure": 9,
+    "vote": "No"
+  },
+  "87": {
+    "rep": "Destin Hall",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "86": {
+    "rep": "Hugh Blackwell",
+    "party": "Republican",
+    "tenure": 17,
+    "vote": "Yes"
+  },
+  "85": {
+    "rep": "Dudley Greene",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "84": {
+    "rep": "Jeffrey C McNeely",
+    "party": "Republican",
+    "tenure": 6,
+    "vote": "Yes"
+  },
+  "83": {
+    "rep": "Grant L Campbell",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "82": {
+    "rep": "Brian Echevarria",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "81": {
+    "rep": "Larry W Potts",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "80": {
+    "rep": "Sam Watford",
+    "party": "Republican",
+    "tenure": 11,
+    "vote": "Yes"
+  },
+  "79": {
+    "rep": "Keith Kidwell",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "78": {
+    "rep": "Neal Jackson",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "77": {
+    "rep": "Julia C Howard",
+    "party": "Republican",
+    "tenure": 37,
+    "vote": "Yes"
+  },
+  "76": {
+    "rep": "Harry Warren",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "75": {
+    "rep": "Donny Lambeth",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "74": {
+    "rep": "Jeff Zenger",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "73": {
+    "rep": "Jonathan L Almond",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "72": {
+    "rep": "Amber Baker",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "71": {
+    "rep": "Kanika Brown",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "70": {
+    "rep": "Brian Biggs",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "69": {
+    "rep": "Dean Arp",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "68": {
+    "rep": "David Willis",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "67": {
+    "rep": "Cody Huneycutt",
+    "party": "Republican",
+    "tenure": 2,
+    "vote": "Yes"
+  },
+  "66": {
+    "rep": "Sarah Crawford",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "65": {
+    "rep": "A Reece Pyrtle",
+    "party": "Republican",
+    "tenure": 4,
+    "vote": "Yes"
+  },
+  "64": {
+    "rep": "Dennis Riddell",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "63": {
+    "rep": "Stephen M Ross",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "62": {
+    "rep": "John M Blust",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "61": {
+    "rep": "Pricey Harrison",
+    "party": "Democrat",
+    "tenure": 21,
+    "vote": "No"
+  },
+  "60": {
+    "rep": "Amanda P Cook",
+    "party": "Democrat",
+    "tenure": 0,
+    "vote": "No"
+  },
+  "59": {
+    "rep": "Jerry \"Alan\" Branson",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "58": {
+    "rep": "Amos L Quick",
+    "party": "Democrat",
+    "tenure": 9,
+    "vote": "No"
+  },
+  "57": {
+    "rep": "Tracy Clark",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "56": {
+    "rep": "Allen Buansi",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "55": {
+    "rep": "Mark Brody",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "54": {
+    "rep": "Robert T Reives II",
+    "party": "Democrat",
+    "tenure": 12,
+    "vote": "No"
+  },
+  "53": {
+    "rep": "Howard Penny Jr",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "52": {
+    "rep": "Ben T Moss Jr",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "51": {
+    "rep": "John Sauls",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "50": {
+    "rep": "Renee A Price",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "49": {
+    "rep": "Cynthia Ball",
+    "party": "Democrat",
+    "tenure": 9,
+    "vote": "No"
+  },
+  "48": {
+    "rep": "Garland E Pierce",
+    "party": "Democrat",
+    "tenure": 21,
+    "vote": "No"
+  },
+  "47": {
+    "rep": "John L Lowery",
+    "party": "Republican",
+    "tenure": 0,
+    "vote": "Yes"
+  },
+  "46": {
+    "rep": "Brenden H Jones",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "45": {
+    "rep": "Frances Jackson PhD",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "44": {
+    "rep": "Charles Smith",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "43": {
+    "rep": "Diane Wheatley",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "42": {
+    "rep": "Mike Colvin",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "41": {
+    "rep": "Maria Cervania",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "40": {
+    "rep": "Phil Rubin",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "39": {
+    "rep": "James Roberson",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "38": {
+    "rep": "Abe Jones",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "37": {
+    "rep": "Erin Pare",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "36": {
+    "rep": "Julie von Haefen",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "35": {
+    "rep": "Mike Schietzelt",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "34": {
+    "rep": "Tim Longest",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "33": {
+    "rep": "Monika Johnson-Hostler",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "32": {
+    "rep": "Bryan Cohn",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "31": {
+    "rep": "Zack Hawkins",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "30": {
+    "rep": "Marcia Morey",
+    "party": "Democrat",
+    "tenure": 8,
+    "vote": "No"
+  },
+  "29": {
+    "rep": "Vernetta Alston",
+    "party": "Democrat",
+    "tenure": 5,
+    "vote": "No"
+  },
+  "28": {
+    "rep": "Larry C Strickland",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "27": {
+    "rep": "Rodney D Pierce",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "26": {
+    "rep": "Donna McDowell White",
+    "party": "Republican",
+    "tenure": 9,
+    "vote": "Yes"
+  },
+  "25": {
+    "rep": "Allen Chesser",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "24": {
+    "rep": "Dante Pittman",
+    "party": "Democrat",
+    "tenure": 1,
+    "vote": "No"
+  },
+  "23": {
+    "rep": "Shelly Willingham",
+    "party": "Democrat",
+    "tenure": 11,
+    "vote": "Yes"
+  },
+  "22": {
+    "rep": "William D Brisson",
+    "party": "Republican",
+    "tenure": 19,
+    "vote": "Yes"
+  },
+  "21": {
+    "rep": "Ya Liu",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "20": {
+    "rep": "Ted Davis Jr",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "19": {
+    "rep": "Charles W Miller",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "18": {
+    "rep": "Deb Butler",
+    "party": "Democrat",
+    "tenure": 9,
+    "vote": "No"
+  },
+  "17": {
+    "rep": "Frank Iler",
+    "party": "Republican",
+    "tenure": 16,
+    "vote": "Yes"
+  },
+  "16": {
+    "rep": "Carson Smith",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "15": {
+    "rep": "Phil Shepard",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "14": {
+    "rep": "Wyatt Gable",
+    "party": "Republican",
+    "tenure": 1,
+    "vote": "Yes"
+  },
+  "13": {
+    "rep": "Celeste D Cairns",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "12": {
+    "rep": "Chris Humphrey",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  },
+  "11": {
+    "rep": "Allison A Dahle",
+    "party": "Democrat",
+    "tenure": 7,
+    "vote": "No"
+  },
+  "10": {
+    "rep": "John R Bell IV",
+    "party": "Republican",
+    "tenure": 13,
+    "vote": "Yes"
+  },
+  "9": {
+    "rep": "Timothy Reeder, MD",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "8": {
+    "rep": "Gloristine Brown",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "7": {
+    "rep": "Matthew Winslow",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "6": {
+    "rep": "Joseph Pike",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "5": {
+    "rep": "Bill Ward",
+    "party": "Republican",
+    "tenure": 3,
+    "vote": "Yes"
+  },
+  "4": {
+    "rep": "Jimmy Dixon",
+    "party": "Republican",
+    "tenure": 15,
+    "vote": "Yes"
+  },
+  "3": {
+    "rep": "Steve Tyson",
+    "party": "Republican",
+    "tenure": 5,
+    "vote": "Yes"
+  },
+  "2": {
+    "rep": "B Ray Jeffers",
+    "party": "Democrat",
+    "tenure": 3,
+    "vote": "No"
+  },
+  "1": {
+    "rep": "Edward C Goodwin",
+    "party": "Republican",
+    "tenure": 7,
+    "vote": "Yes"
+  }
+}

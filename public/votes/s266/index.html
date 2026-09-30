@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>North Carolina Legislative Votes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+
+    #map {
+      height: 100vh;
+      height: 100dvh;
+      width: 100%;
+    }
+
+    #searchBox {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.25);
+      display: flex;
+      gap: 6px;
+    }
+
+    #searchBox input {
+      width: 260px;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #searchBox button {
+      padding: 6px 10px;
+      cursor: pointer;
+      border: none;
+      background: #2c7fb8;
+      color: white;
+      border-radius: 4px;
+    }
+
+    #infoPanel {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      background: white;
+      width: 280px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+      font-size: 14px;
+      line-height: 1.4;
+      overflow: hidden;
+      transition: width 0.2s ease, height 0.2s ease;
+    }
+
+    #infoHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #f5f5f5;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #minimizeBtn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    #infoContent {
+      padding: 14px;
+    }
+
+    #infoPanel.minimized {
+      width: 180px;
+    }
+
+    #infoPanel.minimized #infoContent {
+      display: none;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-block;
+      background: white;
+      color: #2c7fb8;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .back-btn:hover { background: #f5f5f5; }
+
+    /* Mobile adjustments */
+    @media (max-width: 900px) {
+
+      #infoPanel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+        max-height: 50dvh;
+        border-radius: 16px 16px 0 0;
+      }
+
+      #infoContent {
+        overflow-y: auto;
+        max-height: calc(50dvh - 50px);
+      }
+
+      #searchBox {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        transform: none;
+        width: auto;
+        max-width: 70%;
+        padding: 6px 8px;
+        gap: 4px;
+        flex-direction: row;
+      }
+
+      #searchBox input {
+        width: 120px;
+        padding: 4px;
+        font-size: 13px;
+      }
+
+      #searchBox button {
+        padding: 4px 6px;
+        font-size: 13px;
+      }
+
+      /* Push zoom + back button below the search box on phones */
+      .leaflet-top.leaflet-left {
+        top: 56px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="searchBox">
+  <input type="text" id="addressInput" placeholder="Enter address in North Carolina..." />
+  <button onclick="searchAddress()">Search</button>
+</div>
+
+<div id="map"></div>
+
+<div id="infoPanel">
+  <div id="infoHeader">
+    <span>Bill Information</span>
+    <button id="minimizeBtn">−</button>
+  </div>
+
+  <div id="infoContent">
+    <strong>Bill Description - "Power Bill Reduction Act"</strong>
+    <p style="margin-top:8px;">
+      This bill was named in a purposefully deceptive way. This bill allows Duke Energy to raise costs on consumers
+      without going through the traditional rate authority approval process. This vote reflects the vote to override the Governor's Veto.
+      Further information:
+    </p>
+
+    <div style="margin-top:12px;">
+      <a href="https://www.ncleg.gov/Sessions/2025/Bills/Senate/PDF/S266v7.pdf"
+         target="_blank"
+         style="display:block; margin-bottom:6px; color:#2c7fb8; text-decoration:none; font-weight:600;">
+         The Bill
+      </a>
+      <a href="https://www.ncleg.gov/BillLookup/2025/S266"
+         target="_blank"
+         style="display:block; color:#2c7fb8; text-decoration:none; font-weight:600;">
+         Further Reading
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const map = L.map('map', {
+  center: [35.5, -79],
+  zoom: 7,
+  minZoom: 6,
+  maxZoom: 12,
+  maxBounds: [
+    [33.5, -85],
+    [37, -75]
+  ]
+});
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Back button (outside the data load so it always shows)
+const backControl = L.control({ position: "topleft" });
+backControl.onAdd = function () {
+  const div = L.DomUtil.create("div");
+  div.innerHTML = `<a href="/" class="back-btn">← Back to site</a>`;
+  L.DomEvent.disableClickPropagation(div);
+  return div;
+};
+backControl.addTo(map);
+
+Promise.all([
+  fetch('nc-house.geojson').then(r => r.json()),
+  fetch('nc-house-reps-voteResultsfull.json').then(r => r.json()),
+  fetch('nc-senate.json.json').then(r => r.json()),
+  fetch('nc-senate-reps-voteResultsfull.json').then(r => r.json())
+]).then(([houseGeo, houseVotes, senateGeo, senateVotes]) => {
+
+  let colorMode = "vote";
+  let activeLayer;
+
+  function createLayer(geoData, voteData) {
+
+    function style(feature) {
+      const district = feature.properties.DISTRICT;
+      const info = voteData[district];
+
+      if (!info) {
+        return { color: "#444", weight: 1, fillOpacity: 0 };
+      }
+
+      let fillColor = "#999";
+
+      if (colorMode === "vote") {
+        if (info.vote === "Yes") fillColor = "#f1c40f";
+        else if (info.vote === "No") fillColor = "#8e44ad";
+        else fillColor = "#999999";
+      }
+
+      if (colorMode === "party") {
+        if (info.vote === "Yes" && info.party === "Republican")
+          fillColor = "#81261d";
+        else if (info.vote === "Yes" && info.party === "Democrat")
+          fillColor = "#2938b9";
+        else if (info.vote === "No" && info.party === "Republican")
+          fillColor = "#c0392b";
+        else if (info.vote === "No" && info.party === "Democrat")
+          fillColor = "#2980b9";
+        else
+          fillColor = "#999999";
+      }
+
+      return {
+        color: "#444",
+        weight: 1,
+        fillColor: fillColor,
+        fillOpacity: 0.5
+      };
+    }
+
+    const layer = L.geoJSON(geoData, {
+      style: style,
+      onEachFeature: function (feature, layer) {
+        const district = feature.properties.DISTRICT;
+        const info = voteData[district];
+
+        if (info) {
+          layer.bindPopup(`
+            <strong>District ${district}</strong><br>
+            Representative: ${info.rep}<br>
+            Party: ${info.party}<br>
+            Tenure: ${info.tenure}<br>
+            Vote: ${info.vote || "No data"}
+          `);
+        }
+      }
+    });
+
+    layer._styleFunction = style;
+    return layer;
+  }
+
+  const houseLayer = createLayer(houseGeo, houseVotes);
+  const senateLayer = createLayer(senateGeo, senateVotes);
+
+  houseLayer.addTo(map);
+  activeLayer = houseLayer;
+
+  // Chamber Toggle
+  const chamberControl = L.control({ position: "topright" });
+  chamberControl.onAdd = function () {
+    const div = L.DomUtil.create("div");
+    div.style.background = "white";
+    div.style.padding = "8px";
+    div.style.boxShadow = "0 0 6px rgba(0,0,0,0.3)";
+    div.style.borderRadius = "6px";
+
+    const houseBtn = L.DomUtil.create("button", "", div);
+    houseBtn.innerHTML = "House";
+    houseBtn.style.marginRight = "4px";
+
+    const senateBtn = L.DomUtil.create("button", "", div);
+    senateBtn.innerHTML = "Senate";
+
+    houseBtn.onclick = () => {
+      map.removeLayer(activeLayer);
+      activeLayer = houseLayer;
+      activeLayer.addTo(map);
+    };
+
+    senateBtn.onclick = () => {
+      map.removeLayer(activeLayer);
+      activeLayer = senateLayer;
+      activeLayer.addTo(map);
+    };
+
+    return div;
+  };
+  chamberControl.addTo(map);
+
+  // Vote/Party Toggle
+  const colorControl = L.control({ position: "topright" });
+  colorControl.onAdd = function () {
+    const div = L.DomUtil.create("div");
+    div.style.background = "white";
+    div.style.padding = "8px";
+    div.style.marginTop = "8px";
+    div.style.boxShadow = "0 0 6px rgba(0,0,0,0.3)";
+    div.style.borderRadius = "6px";
+
+    const voteBtn = L.DomUtil.create("button", "", div);
+    voteBtn.innerHTML = "Vote View";
+    voteBtn.style.marginRight = "4px";
+
+    const partyBtn = L.DomUtil.create("button", "", div);
+    partyBtn.innerHTML = "Party View";
+
+    voteBtn.onclick = () => {
+      colorMode = "vote";
+      activeLayer.setStyle(activeLayer._styleFunction);
+      legend.update();
+    };
+
+    partyBtn.onclick = () => {
+      colorMode = "party";
+      activeLayer.setStyle(activeLayer._styleFunction);
+      legend.update();
+    };
+
+    return div;
+  };
+  colorControl.addTo(map);
+
+  // Address Search
+  window.searchAddress = async function () {
+    const address = document.getElementById("addressInput").value;
+    if (!address) return;
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
+    );
+
+    const results = await response.json();
+    if (!results.length) return alert("Address not found.");
+
+    const lat = parseFloat(results[0].lat);
+    const lon = parseFloat(results[0].lon);
+    const point = turf.point([lon, lat]);
+
+    let found = null;
+
+    activeLayer.eachLayer(layer => {
+      if (turf.booleanPointInPolygon(point, layer.toGeoJSON())) {
+        found = layer;
+      }
+    });
+
+    if (found) {
+      map.setView([lat, lon], 10);
+      found.openPopup();
+    } else {
+      alert("No district found for that address.");
+    }
+  };
+
+  // Dynamic Legend
+  const legend = L.control({ position: "bottomright" });
+
+  legend.onAdd = function () {
+    this._div = L.DomUtil.create("div");
+    this._div.style.background = "white";
+    this._div.style.padding = "10px";
+    this._div.style.fontSize = "13px";
+    this._div.style.lineHeight = "1.4";
+    this._div.style.boxShadow = "0 0 6px rgba(0,0,0,0.3)";
+    this._div.style.borderRadius = "6px";
+    this._div.style.maxWidth = "260px";
+    this.update();
+    return this._div;
+  };
+
+  legend.update = function () {
+
+    if (colorMode === "vote") {
+      this._div.innerHTML = `
+        <div style="margin-bottom:6px;"><strong>Vote View</strong></div>
+        <div><span style="background:#f1c40f;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>Yes</div>
+        <div><span style="background:#8e44ad;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>No</div>
+        <div><span style="background:#999999;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>Absent</div>
+      `;
+    }
+
+    if (colorMode === "party") {
+      this._div.innerHTML = `
+        <div style="margin-bottom:6px;"><strong>Party View</strong></div>
+        <div><span style="background:#81261d;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>Yes – Republican</div>
+        <div><span style="background:#2938b9;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>Yes – Democrat</div>
+        <div><span style="background:#c0392b;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>No – Republican</div>
+        <div><span style="background:#2980b9;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>No – Democrat</div>
+        <div><span style="background:#999999;width:16px;height:16px;display:inline-block;margin-right:6px;opacity:0.5;"></span>Absent</div>
+      `;
+    }
+  };
+
+  legend.addTo(map);
+
+}).catch(err => {
+  console.error("Failed to load map data:", err);
+  alert("Some map data failed to load. Check the browser console for details.");
+});
+
+// Info panel minimize
+const infoPanel = document.getElementById("infoPanel");
+const minimizeBtn = document.getElementById("minimizeBtn");
+
+minimizeBtn.addEventListener("click", () => {
+  infoPanel.classList.toggle("minimized");
+  minimizeBtn.textContent = infoPanel.classList.contains("minimized") ? "+" : "−";
+});
+</script>
+
+</body>
+</html>
