@@ -7,16 +7,33 @@ import { feature, mesh } from "topojson-client";
 import us from "us-atlas/states-albers-10m.json";
 import data from "../data/early-voting-2026.json";
 
+// Edit this list to change the ranges, labels, or colors.
+// maxDays = the last day that falls in this bucket (0 = already open).
+// The last bucket catches everything farther out, so its maxDays is ignored.
+const BUCKETS = [
+  { maxDays: 0,  label: "Early voting open", color: "#14532d" },
+  { maxDays: 5,  label: "Opens in 1–5 days", color: "#4d9a3f" },
+  { maxDays: 12, label: "6–12 days",         color: "#a6c63a" },
+  { maxDays: 21, label: "13–21 days",        color: "#f1c232" },
+  { maxDays: 24, label: "22–24 days",        color: "#eb8a2e" },
+  { maxDays: Infinity, label: "25+ days",    color: "#c62f2f" },
+];
+
+type StateInfo = { fips: string; abbr: string; name: string; start: string | null; note?: string; source?: string };
+
+const topo = us as any; // us-atlas ships plain JSON with no types
 const path = geoPath(); // us-atlas albers file is pre-projected to 975×610
-const states = feature(us, us.objects.states).features;
-const borders = path(mesh(us, us.objects.states, (a, b) => a !== b));
-const byFips = Object.fromEntries(data.states.map((s) => [s.fips, s]));
+const states = (feature(topo, topo.objects.states) as any).features as any[];
+const borders = path(mesh(topo, topo.objects.states, (a: any, b: any) => a !== b));
+const byFips: Record<string, StateInfo> = Object.fromEntries(
+  (data.states as StateInfo[]).map((s) => [s.fips, s])
+);
 const dc = states.find((f) => f.id === "11");
 const [dcX, dcY] = dc ? path.centroid(dc) : [0, 0];
 
-const fmt = (iso) =>
+const fmt = (iso: string) =>
   new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
-const sorted = [...data.states].sort((a, b) =>
+const sorted = [...(data.states as StateInfo[])].sort((a, b) =>
   (a.start ?? "9999").localeCompare(b.start ?? "9999") || a.name.localeCompare(b.name)
 );
 ---
@@ -28,15 +45,10 @@ const sorted = [...data.states].sort((a, b) =>
     <button type="button" id="ev-today">Today</button>
   </div>
 
-  <ul class="ev-legend" aria-label="Legend">
-    <li><span style="--c:var(--ev-0)"></span>Early voting open</li>
-    <li><span style="--c:var(--ev-1)"></span>Opens in 1–7 days</li>
-    <li><span style="--c:var(--ev-2)"></span>8–14 days</li>
-    <li><span style="--c:var(--ev-3)"></span>15–21 days</li>
-    <li><span style="--c:var(--ev-4)"></span>22–28 days</li>
-    <li><span style="--c:var(--ev-5)"></span>29+ days</li>
-    <li><span style="--c:var(--ev-none)"></span>No unexcused early voting</li>
-  </ul>
+ <ul class="ev-legend" aria-label="Legend">
+  {BUCKETS.map((b) => <li><span style={`--c:${b.color}`}></span>{b.label}</li>)}
+  <li><span style="--c:var(--ev-none)"></span>No no-excuse early voting</li>
+</ul>
 
   <div class="ev-map">
     <svg viewBox="0 0 975 610" role="img" aria-labelledby="ev-title">
@@ -66,7 +78,7 @@ const sorted = [...data.states].sort((a, b) =>
           data-fips="11"
           data-start={byFips["11"].start}
           tabindex="0"
-          aria-label={`District of Columbia: early voting starts ${fmt(byFips["11"].start)}`}
+          aria-label={`District of Columbia: early voting starts ${fmt(byFips["11"].start ?? "")}`}
         />
       )}
     </svg>
@@ -90,8 +102,8 @@ const sorted = [...data.states].sort((a, b) =>
     </table>
   </div>
 </details>
-
-  <script type="application/json" id="ev-data" set:html={JSON.stringify(byFips)} />
+    <script type="application/json" id="ev-data" set:html={JSON.stringify(byFips)} />
+  <script type="application/json" id="ev-buckets" set:html={JSON.stringify(BUCKETS)} />
 </section>
 
 <script>
@@ -108,8 +120,11 @@ const sorted = [...data.states].sort((a, b) =>
   const fmt = (iso: string) =>
     new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 
-  // Days until start → legend bucket (0 = open now, 5 = 29+ days away).
-  const bucket = (days: number) => (days <= 0 ? 0 : Math.min(5, Math.ceil(days / 7)));
+  const BUCKETS: { maxDays: number | null; color: string }[] =
+    JSON.parse(document.getElementById("ev-buckets")!.textContent!);
+
+  const colorFor = (days: number) =>
+    (BUCKETS.find((b) => b.maxDays === null || days <= b.maxDays) ?? BUCKETS[BUCKETS.length - 1]).color;
 
   function describe(s: any, asOf: string) {
     if (!s.start) return "No unexcused early voting";
@@ -118,18 +133,18 @@ const sorted = [...data.states].sort((a, b) =>
     return `Starts ${fmt(s.start)} · ${days} day${days === 1 ? "" : "s"} away`;
   }
 
-const dots = [...root.querySelectorAll<HTMLElement>(".ev-dot")];
+  const dots = [...root.querySelectorAll<HTMLElement>(".ev-dot")];
 
-function paint(asOf: string) {
-  for (const el of [...shapes, ...dots]) {
-    const start = el.dataset.start;
-    const color = start
-      ? `var(--ev-${bucket(Math.round((noon(start) - noon(asOf)) / DAY))})`
-      : "var(--ev-none)";
-    if (el instanceof SVGElement) el.style.fill = color;
-    else el.style.background = color;
+  function paint(asOf: string) {
+    for (const el of [...shapes, ...dots]) {
+      const start = el.dataset.start;
+      const color = start
+        ? colorFor(Math.round((noon(start) - noon(asOf)) / DAY))
+        : "var(--ev-none)";
+      if (el instanceof SVGElement) el.style.fill = color;
+      else el.style.background = color;
+    }
   }
-}
 
   function show(el: SVGElement, x: number, y: number) {
     const s = byFips[el.dataset.fips!];
@@ -175,6 +190,7 @@ function paint(asOf: string) {
     --ev-ink: #1d1f23;
     --ev-panel: #ffffff;
     --ev-muted: #5d626b;
+    --ev-greenbutton: #528317;
     color: var(--ev-ink);
     font-family: system-ui, sans-serif;
   }
