@@ -12,11 +12,11 @@ import data from "../data/early-voting-2026.json";
 // The last bucket catches everything farther out, so its maxDays is ignored.
 const BUCKETS = [
   { maxDays: 0,  label: "Early voting open", color: "#14532d" },
-  { maxDays: 5,  label: "Opens in 1–5 days", color: "#4d9a3f" },
-  { maxDays: 12, label: "6–12 days",         color: "#a6c63a" },
-  { maxDays: 21, label: "13–21 days",        color: "#f1c232" },
-  { maxDays: 24, label: "22–24 days",        color: "#eb8a2e" },
-  { maxDays: Infinity, label: "25+ days",    color: "#c62f2f" },
+  { maxDays: 3,  label: "Opens in 1–3 days", color: "#4d9a3f" },
+  { maxDays: 10, label: "4–10 days",         color: "#a6c63a" },
+  { maxDays: 15, label: "11–15 days",        color: "#f1c232" },
+  { maxDays: 24, label: "16–20 days",        color: "#eb8a2e" },
+  { maxDays: Infinity, label: "21+ days",    color: "#c62f2f" },
 ];
 
 type StateInfo = { fips: string; abbr: string; name: string; start: string | null; note?: string; source?: string };
